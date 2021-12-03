@@ -21,8 +21,8 @@ pub fn main() {
     run(&commands, &execute_command_ex02);
 }
 
-fn run(commands: &Vec<Command>, f: &dyn Fn(State, &Command) -> State) {
-    let state = execute_commands(&commands, &f);
+fn run(commands: &[Command], f: &dyn Fn(State, &Command) -> State) {
+    let state = execute_commands(commands, &f);
     println!(
         "State = {:?}, res = {}",
         state,
@@ -31,16 +31,16 @@ fn run(commands: &Vec<Command>, f: &dyn Fn(State, &Command) -> State) {
 }
 
 fn execute_command_ex01(state: State, command: &Command) -> State {
-    match command {
-        &Command::Forward(x) => State {
+    match *command {
+        Command::Forward(x) => State {
             horizontal: state.horizontal + x,
             ..state
         },
-        &Command::Down(x) => State {
+        Command::Down(x) => State {
             depth: state.depth + x,
             ..state
         },
-        &Command::Up(x) => State {
+        Command::Up(x) => State {
             depth: state.depth - x,
             ..state
         },
@@ -48,24 +48,24 @@ fn execute_command_ex01(state: State, command: &Command) -> State {
 }
 
 fn execute_command_ex02(state: State, command: &Command) -> State {
-    match command {
-        &Command::Forward(x) => State {
+    match *command {
+        Command::Forward(x) => State {
             horizontal: state.horizontal + x,
             depth: state.depth + state.aim * x,
             ..state
         },
-        &Command::Down(x) => State {
+        Command::Down(x) => State {
             aim: state.aim + x,
             ..state
         },
-        &Command::Up(x) => State {
+        Command::Up(x) => State {
             aim: state.aim - x,
             ..state
         },
     }
 }
 
-fn execute_commands(commands: &Vec<Command>, f: &dyn Fn(State, &Command) -> State) -> State {
+fn execute_commands(commands: &[Command], f: &dyn Fn(State, &Command) -> State) -> State {
     commands.iter().fold(State::default(), f)
 }
 
