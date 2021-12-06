@@ -7,6 +7,7 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 
 fn main() {
     let matches = App::new(crate_name!())
@@ -16,6 +17,7 @@ fn main() {
         .subcommand(SubCommand::with_name("day-02"))
         .subcommand(SubCommand::with_name("day-03"))
         .subcommand(SubCommand::with_name("day-04"))
+        .subcommand(SubCommand::with_name("day-05"))
         .get_matches();
 
     match matches.subcommand() {
@@ -23,6 +25,7 @@ fn main() {
         ("day-02", _) => day02::main(),
         ("day-03", _) => day03::main(),
         ("day-04", _) => day04::main(),
+        ("day-05", _) => day05::main(),
         ("__template", _) => __template::main(),
         _ => (),
     }
